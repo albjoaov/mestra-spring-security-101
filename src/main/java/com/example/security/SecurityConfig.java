@@ -27,10 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.
 			authorizeRequests()
 				.anyRequest().authenticated()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.httpBasic()
-				.and()
+			.and()
 				.formLogin();
 	}
 
