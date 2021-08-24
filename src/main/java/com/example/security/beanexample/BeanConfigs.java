@@ -8,7 +8,7 @@ import java.util.List;
 @Configuration
 public class BeanConfigs {
 
-	@Bean
+//	@Bean
 	public Receita receita() {
 		List<String> ingredientesList = List.of("ovo", "farinha", "chocolate");
 		Receita bolo = new Receita("bolo", ingredientesList);

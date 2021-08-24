@@ -16,9 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure (AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.inMemoryAuthentication()
-			.withUser("mesttra").password(encoder().encode("123")).roles("ADMIN")
+			.withUser("admin").password(encoder().encode("123")).roles("ADMIN")
 			.and()
-			.withUser("aluno").password(encoder().encode("123")).roles("USER");
+			.withUser("user").password(encoder().encode("123")).roles("USER");
 	}
 
 	// Authorization config
@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure (HttpSecurity http) throws Exception {
 		http.
 			authorizeRequests()
+				.antMatchers("/admin").hasRole("ADMIN")
+				.antMatchers("/user").hasRole("USER")
 				.anyRequest().authenticated()
 			.and()
 				.sessionManagement()

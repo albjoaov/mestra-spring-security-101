@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SimpleController {
 
-	@GetMapping("/")
-	// Teste com ROLES
+	@GetMapping("/user")
 	public String ola() {
 		return "Olá, mundo";
+	}
+
+	@GetMapping("/admin")
+	public String protectedOla() {
+		return "Olá, ADMIN";
 	}
 
 }
