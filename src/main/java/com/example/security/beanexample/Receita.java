@@ -1,4 +1,4 @@
-package com.example.security;
+package com.example.security.beanexample;
 
 import java.util.List;
 
