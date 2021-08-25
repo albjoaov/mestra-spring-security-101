@@ -3,6 +3,7 @@ package com.example.security.config;
 import com.example.security.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -32,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			authorizeRequests()
 				.antMatchers("/admin").hasRole("ADMIN")
 				.antMatchers("/user").hasRole("USER")
+				.antMatchers("/auth").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.sessionManagement()
@@ -48,7 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 
-
+	@Bean
+	@Override
+	protected AuthenticationManager authenticationManager () throws Exception {
+		return super.authenticationManager();
+	}
 }
