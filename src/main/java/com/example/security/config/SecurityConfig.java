@@ -1,6 +1,9 @@
 package com.example.security.config;
 
+import com.example.security.filter.AuthTokenFilter;
+import com.example.security.repository.UserRepository;
 import com.example.security.service.AuthService;
+import com.example.security.service.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,15 +12,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 //@EnableGlobalMethodSecurity (prePostEnabled = true)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final AuthService authService;
+	private final TokenService tokenService;
+	private final UserRepository userRepository;
 
-	public SecurityConfig (AuthService authService) {
+	public SecurityConfig (AuthService authService,
+	                       TokenService tokenService,
+	                       UserRepository userRepository) {
 		this.authService = authService;
+		this.tokenService = tokenService;
+		this.userRepository = userRepository;
 	}
 
 	// Authentication config
@@ -36,14 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth").permitAll()
 				.anyRequest().authenticated()
 			.and()
+				.csrf().disable()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-				.httpBasic()
-			.and()
-				.formLogin()
-			.and()
-				.csrf().disable();
+				.addFilterBefore(new AuthTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
