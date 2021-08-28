@@ -14,32 +14,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController
-@RequestMapping("/auth")
+//@RestController
+//@RequestMapping("/auth")
 public class AuthController {
-
-	private final AuthenticationManager authenticationManager;
-	private final TokenService tokenService;
-
-	public AuthController (AuthenticationManager authenticationManager,
-	                       TokenService tokenService) {
-		this.authenticationManager = authenticationManager;
-		this.tokenService = tokenService;
-	}
-
-	@PostMapping
-	public ResponseEntity<String> auth(@Valid @RequestBody UserDto userDto) {
-
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = userDto.toAuthToken();
-
-		try {
-			Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-			String token = this.tokenService.generateJwt(authenticate);
-			String fullToken = "Bearer " + token;
-			return ResponseEntity.ok(fullToken);
-		} catch (AuthenticationException e) {
-			return ResponseEntity.badRequest().build();
-		}
-	}
+//
+//	private final AuthenticationManager authenticationManager;
+//	private final TokenService tokenService;
+//
+//	public AuthController (AuthenticationManager authenticationManager,
+//	                       TokenService tokenService) {
+//		this.authenticationManager = authenticationManager;
+//		this.tokenService = tokenService;
+//	}
+//
+//	@PostMapping
+//	public ResponseEntity<String> auth(@Valid @RequestBody UserDto userDto) {
+//
+//		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = userDto.toAuthToken();
+//
+//		try {
+//			Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+//			String token = this.tokenService.generateJwt(authenticate);
+//			String fullToken = "Bearer " + token;
+//			return ResponseEntity.ok(fullToken);
+//		} catch (AuthenticationException e) {
+//			return ResponseEntity.badRequest().build();
+//		}
+//	}
 
 }
